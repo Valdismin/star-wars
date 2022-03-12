@@ -125,7 +125,6 @@ export default {
   color: red;
   padding-left: 20px;
   height: 300px;
-  width: 500px;
 }
 
 .profile-container {

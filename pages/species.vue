@@ -8,11 +8,11 @@
         Next
       </div>
     </div>
-    <ul class="planetsWrapper">
-      <li v-for="planet in planets" :key="planet.name">
-        <div href="#" class="planetName" @click.prevent="openPlanet(planet)">
-          <div class="planetWrapper">
-            <Planet :url="planet.url" />
+    <ul class="speciesWrapper">
+      <li v-for="race in species" :key="race.name">
+        <div href="#" class="raceName" @click.prevent="openRace(race)">
+          <div class="raceWrapper">
+            <Race :url="race.url" />
           </div>
         </div>
       </li>
@@ -21,42 +21,47 @@
 </template>
 
 <script>
+import Race from '~/components/Race'
+
 export default {
-  name: 'PlanetsPage',
+  name: 'RacePage',
+  components: {
+    Race
+  },
   data: () => ({
-    planets: null,
-    url: 'https://swapi.dev/api/planets?page=1',
+    species: null,
+    url: 'https://swapi.dev/api/species?page=1',
     nextUrl: null,
     previousUrl: null
   }),
   async mounted () {
     this.$store.commit('loading', true)
-    const planets = await this.$axios.get(this.url)
-    this.planets = planets.data.results
-    this.nextUrl = planets.data.next
+    const species = await this.$axios.get(this.url)
+    this.species = species.data.results
+    this.nextUrl = species.data.next
     this.$store.commit('loading', false)
   },
   methods: {
-    openPlanet (planet) {
-      const planetId = planet.url.split('/')[5]
-      this.$router.push('/planet/' + planetId)
+    openRace (race) {
+      const raceId = race.url.split('/')[5]
+      this.$router.push('/race/' + raceId)
     },
     async pushNextUrl (url) {
       this.$store.commit('loading', true)
       this.url = url
-      const planets = await this.$axios.get(this.url)
-      this.planets = planets.data.results
-      this.nextUrl = planets.data.next
-      this.previousUrl = planets.data.previous
+      const species = await this.$axios.get(this.url)
+      this.species = species.data.results
+      this.nextUrl = species.data.next
+      this.previousUrl = species.data.previous
       this.$store.commit('loading', false)
     },
     async pushPreviousUrl (url) {
       this.$store.commit('loading', true)
       this.url = url
-      const planets = await this.$axios.get(this.url)
-      this.planets = planets.data.results
-      this.nextUrl = planets.data.next
-      this.previousUrl = planets.data.previous
+      const species = await this.$axios.get(this.url)
+      this.species = species.data.results
+      this.nextUrl = species.data.next
+      this.previousUrl = species.data.previous
       this.$store.commit('loading', false)
     }
   }
@@ -68,13 +73,13 @@ li {
   list-style-type: none;
 }
 
-.planetsWrapper {
+.speciesWrapper {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.planetWrapper {
+.raceWrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -82,7 +87,7 @@ li {
   margin: 10px;
 }
 
-.planetName {
+.raceName {
   color: red;
   text-decoration: none;
   cursor: pointer;

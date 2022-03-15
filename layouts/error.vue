@@ -1,7 +1,7 @@
 <template>
   <section>
-    <h1>Error 404</h1>
-    <nuxt-link to="/">
+    <h1>Some error occurred</h1>
+    <nuxt-link class="link" to="/">
       Home
     </nuxt-link>
   </section>
@@ -15,12 +15,21 @@ export default {
 
 <style scoped>
 section {
-  width: 600px;
+  width: 100%;
   margin: 0 auto;
-  padding-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
+.link{
+  color: red;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+}
 h1 {
   color: red;
+  padding-bottom: 20px;
 }
 </style>

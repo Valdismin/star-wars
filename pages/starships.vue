@@ -8,11 +8,11 @@
         Next
       </div>
     </div>
-    <ul class="planetsWrapper">
-      <li v-for="planet in planets" :key="planet.name">
-        <div href="#" class="planetName" @click.prevent="openPlanet(planet)">
-          <div class="planetWrapper">
-            <Planet :url="planet.url" />
+    <ul class="starshipsWrapper">
+      <li v-for="starship in starships" :key="starship.name">
+        <div href="#" class="starshipName" @click.prevent="openStarship(starship)">
+          <div class="starshipWrapper">
+            <Starship starship-trigger :url="starship.url" />
           </div>
         </div>
       </li>
@@ -21,60 +21,65 @@
 </template>
 
 <script>
+import Starship from '~/components/Starship'
+
 export default {
-  name: 'PlanetsPage',
+  name: 'StarshipsPage',
+  components: {
+    Starship
+  },
   data: () => ({
-    planets: null,
-    url: 'https://swapi.dev/api/planets?page=1',
+    starships: {},
+    url: 'https://swapi.dev/api/starships?page=1',
     nextUrl: null,
     previousUrl: null
   }),
   async mounted () {
     this.$store.commit('loading', true)
-    const planets = await this.$axios.get(this.url)
-    this.planets = planets.data.results
-    this.nextUrl = planets.data.next
+    const starships = await this.$axios.get(this.url)
+    this.starships = starships.data.results
+    this.nextUrl = starships.data.next
     this.$store.commit('loading', false)
   },
   methods: {
-    openPlanet (planet) {
-      const planetId = planet.url.split('/')[5]
-      this.$router.push('/planet/' + planetId)
+    openStarship (starship) {
+      const starshipId = starship.url.split('/')[5]
+      this.$router.push('/starship/' + starshipId)
     },
     async pushNextUrl (url) {
       this.$store.commit('loading', true)
       this.url = url
-      const planets = await this.$axios.get(this.url)
-      this.planets = planets.data.results
-      this.nextUrl = planets.data.next
-      this.previousUrl = planets.data.previous
+      const starships = await this.$axios.get(this.url)
+      this.starships = starships.data.results
+      this.nextUrl = starships.data.next
+      this.previousUrl = starships.data.previous
       this.$store.commit('loading', false)
     },
     async pushPreviousUrl (url) {
       this.$store.commit('loading', true)
       this.url = url
-      const planets = await this.$axios.get(this.url)
-      this.planets = planets.data.results
-      this.nextUrl = planets.data.next
-      this.previousUrl = planets.data.previous
+      const starships = await this.$axios.get(this.url)
+      this.starships = starships.data.results
+      this.nextUrl = starships.data.next
+      this.previousUrl = starships.data.previous
       this.$store.commit('loading', false)
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 li {
   list-style-type: none;
 }
 
-.planetsWrapper {
+.starshipsWrapper {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.planetWrapper {
+.starshipWrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -82,14 +87,13 @@ li {
   margin: 10px;
 }
 
-.planetName {
+.starshipName {
   color: red;
   text-decoration: none;
   cursor: pointer;
   font-size: 20px;
   font-weight: 600;
 }
-
 .button{
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 <template>
   <nav class="customNavbar">
     <ul class="navLinksWrapper">
-      <img src="../static/starWarsLogo.png" class="logo" />
+      <img src="../static/starWarsLogo.png" class="logo">
       <li class="nav-item">
         <nuxt-link
           exact
@@ -30,17 +30,17 @@
         </nuxt-link>
       </li>
       <li class="nav-item">
-        <nuxt-link class="navLink" active-class="active" to="/starships ">
+        <nuxt-link class="navLink" active-class="active" to="/starships">
           Starships
         </nuxt-link>
       </li>
       <li class="nav-item">
-        <nuxt-link class="navLink" active-class="active" to="/vehicles  ">
+        <nuxt-link class="navLink" active-class="active" to="/vehicles">
           Vehicles
         </nuxt-link>
       </li>
       <li class="nav-item">
-        <nuxt-link class="navLink" active-class="active" to="/species  ">
+        <nuxt-link class="navLink" active-class="active" to="/species">
           Species
         </nuxt-link>
       </li>

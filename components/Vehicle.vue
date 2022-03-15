@@ -1,7 +1,7 @@
 <template>
   <div class="vehicle" @click.prevent="openVehicle">
-    <img class="image" :src="imageUrl">
-    <div class="title">
+    <img :class="{vehicleImage: vehicleTrigger}" class="image" :src="imageUrl">
+    <div :class="{vehicleTitle: vehicleTrigger}" class="title">
       {{ vehicle.name }}
     </div>
   </div>
@@ -10,8 +10,7 @@
 <script>
 export default {
   name: 'VehicleComponent',
-  // eslint-disable-next-line vue/require-default-prop
-  props: { url: String },
+  props: { url: String, vehicleTrigger: Boolean },
   data: () => ({
     vehicle: {},
     imageUrl: null
@@ -43,9 +42,13 @@ export default {
 
 <style scoped>
 .vehicle{
-  width: 120px;
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .image{
   width: 100px;
@@ -55,5 +58,13 @@ export default {
   color: red;
   font-size: 14px;
   font-weight: 500;
+}
+.vehicleTitle{
+  font-size: 20px;
+  font-weight: 600;
+}
+.vehicleImage{
+  width: 200px;
+  height: 200px;
 }
 </style>

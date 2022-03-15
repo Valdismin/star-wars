@@ -1,7 +1,7 @@
 <template>
   <div class="film" @click.prevent="openFilm">
-    <img class="image" :src="imageUrl">
-    <div class="title">
+    <img :class="{filmImage: filmsTrigger}" class="image" :src="imageUrl">
+    <div :class="{filmTitle: filmsTrigger}" class="title">
       {{ film.title }}
     </div>
   </div>
@@ -11,7 +11,7 @@
 export default {
   name: 'FilmComponent',
   // eslint-disable-next-line vue/require-default-prop
-  props: { url: String },
+  props: { url: String, filmsTrigger: Boolean },
   data: () => ({
     film: {},
     imageUrl: null
@@ -35,7 +35,8 @@ export default {
   },
   methods: {
     openFilm () {
-      this.$router.push('/film/' + this.film.episode_id)
+      const filmId = this.film.url.split('/')[5]
+      this.$router.push('/film/' + filmId)
     }
   }
 }
@@ -43,17 +44,28 @@ export default {
 
 <style scoped>
 .film{
-  width: 120px;
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .image{
   width: 100px;
   height: 130px;
 }
+.filmImage{
+  width: 200px;
+  height: 260px;
+}
 .title{
   color: red;
   font-size: 14px;
   font-weight: 500;
+}
+.filmTitle{
+  font-size: 20px;
+  font-weight: 600;
 }
 </style>

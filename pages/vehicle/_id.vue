@@ -1,33 +1,33 @@
 <template>
-  <div class="planetWrapper">
-    <div class="planetProfile">
-      <CommonImage path="planets" />
+  <div>
+    <div class="vehicleProfile">
+      <CommonImage path="vehicles" />
       <div class="infoBlock">
         <div class="name">
-          {{ planet.name }}
+          {{ vehicle.name }}
         </div>
-        <div>Population: {{ planet.population }}</div>
-        <div>Сlimate: {{ planet.climate }}</div>
-        <div>Diameter: {{ planet.diameter }} km</div>
-        <div>Rotation period: {{ planet.rotation_period }} days</div>
-        <div>Orbital period: {{ planet.orbital_period }} days</div>
-        <div>Surface water: {{ planet.surface_water }}%</div>
+        <div>Vehicle class: {{ vehicle.vehicle_class }}</div>
+        <div>Passengers: {{ vehicle.passengers }}</div>
+        <div>Cargo capacity: {{ vehicle.cargo_capacity }}</div>
+        <div>Passengers: {{ vehicle.passengers }}</div>
+        <div>Max speed: {{ vehicle.max_atmosphering_speed }}</div>
+        <div>Length: {{ vehicle.length }}</div>
       </div>
     </div>
     <div class="additionalInformationWrapper">
-      <div class="blockWrapper">
-        <span class="blockTitle">Related Films</span>
+      <div v-show="films" class="blockWrapper">
+        <span class="blockTitle">Films</span>
         <div class="itemWrapper">
-          <div v-for="film in planet.films" :key="film.url">
+          <div v-for="film in vehicle.films" :key="film">
             <Film :url="film" />
           </div>
         </div>
       </div>
-      <div class="blockWrapper">
-        <span class="blockTitle">Residents</span>
+      <div v-show="pilots" class="blockWrapper">
+        <span class="blockTitle">Pilots</span>
         <div class="itemWrapper">
-          <div v-for="resident in planet.residents" :key="resident">
-            <Resident :url="resident" />
+          <div v-for="pilot in vehicle.pilots" :key="pilot">
+            <Resident :url="pilot" />
           </div>
         </div>
       </div>
@@ -36,38 +36,36 @@
 </template>
 
 <script>
+import CommonImage from '~/components/CommonImage'
 import Film from '~/components/Film'
 import Resident from '~/components/Resident'
-import CommonImage from '~/components/CommonImage'
 
 export default {
-  name: 'IdPlanet',
+  name: 'IdVehicle',
   components: {
+    CommonImage,
     Film,
-    Resident,
-    CommonImage
+    Resident
   },
   data: () => ({
-    planet: {}
+    vehicle: {},
+    films: null,
+    pilots: null
   }),
   async mounted () {
     this.$store.commit('loading', true)
-    const planet = await this.$axios.get('https://swapi.dev/api/planets/' + this.$route.params.id)
-    this.planet = planet.data
+    const vehicle = await this.$axios.get('https://swapi.dev/api/vehicles/' + this.$route.params.id)
+    this.vehicle = vehicle.data
+    this.pilots = this.vehicle.pilots.length
+    this.films = this.vehicle.films.length
     this.$store.commit('loading', false)
   }
 }
 </script>
 
 <style scoped>
-.planetWrapper{
+.vehicleProfile{
   display: flex;
-  flex-direction: column;
-  max-width: 100vw;
-}
-.planetProfile{
-  display: flex;
-  align-items: center;
   justify-content: flex-start;
   margin-top: 100px;
   border: 1px solid red;
@@ -89,9 +87,11 @@ export default {
 }
 .additionalInformationWrapper {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  padding-bottom: 100px;
 }
 .infoBlock {
   color: red;
@@ -107,6 +107,7 @@ export default {
 
 .blockWrapper {
   height: 100%;
+  width: 100%;
   color: red;
   font-size: 17px;
   font-weight: 600;

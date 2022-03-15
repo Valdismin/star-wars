@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="blockWrapper">
+      <div v-show="vehicles" class="blockWrapper">
         <span>Related vehicles</span>
         <div class="itemWrapper">
           <div v-for="vehicle in hero.vehicles" :key="vehicle.url">
@@ -38,8 +38,8 @@
           </div>
         </div>
       </div>
-      <div class="blockWrapper">
-        <span class="blockTitle">Related Films</span>
+      <div v-show="starships" class="blockWrapper">
+        <span class="blockTitle">Related Starships</span>
         <div class="itemWrapper">
           <div v-for="starship in hero.starships" :key="starship.url">
             <Starships :url="starship" />
@@ -53,7 +53,7 @@
 <script>
 import Film from '~/components/Film'
 import Vehicle from '~/components/Vehicle'
-import Starships from '~/components/Starships'
+import Starships from '~/components/Starship'
 
 export default {
   name: 'IdHero',
@@ -68,7 +68,9 @@ export default {
     planet: null,
     planetUrl: null,
     hero: {},
-    species: {}
+    species: {},
+    vehicles: null,
+    starships: null
   }),
   async mounted () {
     this.$store.commit('loading', true)
@@ -83,6 +85,8 @@ export default {
     this.image = heroImage.data.image
     this.planet = planet.data.name
     this.planetUrl = planet.data.url
+    this.vehicles = this.hero.vehicles.length
+    this.starships = this.hero.starships.length
     this.$store.commit('loading', false)
   },
   methods: {
@@ -109,7 +113,8 @@ export default {
 .additionalInformationWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .link {
@@ -130,7 +135,11 @@ export default {
 .profile-container {
   display: flex;
   align-items: center;
-  padding-top: 100px;
+  margin-top: 100px;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
 }
 
 .name {
@@ -141,10 +150,11 @@ export default {
 .itemWrapper {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .blockWrapper {
-  height: 300px;
+  height: 100%;
   color: red;
   font-size: 17px;
   font-weight: 600;
